@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>Price List | Gokul Agencies</title>
+
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+</head>
+
+<body>
+    <nav class="white" role="navigation" style="height: 80px;">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="https://gokulagencies.in/" class="brand-logo valign-wrapper" style="height:80px;">
+                <img src="https://gokulagencies.in/wp-content/uploads/2020/09/logo.svg" alt="Gokul Agencies" id="logo" style="vertical-align: middle; max-width: 85%">
+            </a>
+            <ul class="right hide-on-med-and-down" style="height:80px;">
+                <li id='login_li' style="display: none; height:80px;"><a style="color: black" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
+                <li id='user_drop' style="display: none; height:80px;"><a style="color: black" class="dropdown-trigger" href="#!" data-target="dropdown1"><span id='user_drop_text'>User</span><i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+
+            <ul id="nav-mobile " class="sidenav ">
+                <li><a style="color: black; background-color:lightgrey" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
+            </ul>
+            <a href="#!" data-target="nav-mobile " style="color: #0056B8;" class="sidenav-trigger "><i class="material-icons ">menu</i></a>
+        </div>
+    </nav>
+    <div class="section no-pad-bot " id="index-banner " style="background-color: #0056B8; ">
+        <div class="container ">
+            <br><br>
+            <h1 class="header center white-text ">Price List</h1>
+            <div class="row center ">
+                <h5 id="subTitleHeader" class="header col s12 light white-text ">Login/Signup to begin search.</h5>
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!" onclick="signOut()">Signout</a></li>
+    </ul>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Login</h4>
+            <div class="col s6">
+                <!-- <form class="" name="login_form"> -->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="Email" id="Email" type="email" class="validate" required>
+                        <label for="Email">Email</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input name="Password" id="Password" type="text" class="validate" required>
+                        <label for="Password">Password</label>
+                    </div>
+                    <!-- </form> -->
+                    <div class="input-field col s12">
+                        <button class="waves-effect waves-light btn" onclick="login()">Login <i class="material-icons right">send</i></button>
+                    </div>
+                    <div class="input-field col s12">
+                        <button class="waves-effect waves-light btn " onclick="googleLogin()">Login  with Google<i class="material-icons right">send</i></button>
+                    </div>
+                    <div class="input-field col s12">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+    <div class="container ">
+        <div class="section ">
+            <!--   Icon Section   -->
+            <div class="row ">
+                <div class="col s12 ">
+                    <div class="input-field">
+                        <i class="material-icons prefix ">search</i>
+                        <input id="search" type="text" class="" oninput="initiate_search(this.value)">
+                        <label for="search">Enter Item Name / Code</label>
+                    </div>
+                    <table id='item_table'>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Item Name</th>
+                                <th>Item Price</th>
+                                <th>UQC</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id='item_table_tbody'>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row" id="file_input_row" style="display: none;">
+                <div class="col s12 ">
+                    <ul class="collection ">
+                        <li class="collection-item ">
+                            <div>Upload Excel<a href="#! " class="secondary-content "><i class="material-icons ">file_upload</i></a>
+                                <input type="file" id="file_input"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div> <br><br>
+        </div>
+    </div>
+    <footer class="page-footer " style="background-color: #222; ">
+        <div class="container ">
+            <div class="row ">
+                <div class="col l4 s12 ">
+                    <h5 class=" footer_header ">Gokul Agencies</h5>
+                    <p class="white-text ">Kottathala PO, Kottarakkara <br> Kollam, Kerala 691507</p>
+                </div>
+                <div class="col l4 s12 ">
+                    <h5 class="footer_header ">Contact</h5>
+                    <p class="white-text ">90748 15023 / 90748 19388 <br> 94959 84880 / 89212 86519</p>
+                    <p class="white-text ">contact@gokulagencies.in</p>
+                    <p class="white-text ">www.gokulagencies.in</p>
+                </div>
+                <div class="col l4 s12 ">
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright " style="background-color: #000; ">
+            <div class="container " style="text-align: center; ">
+                Copyrights © Gokulagencies 2020. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/init.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js "></script>
+    <script>
+        var ExcelToJSON = function() {
+
+            this.parseExcel = function(file) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, {
+                        type: 'binary'
+                    });
+
+                    workbook.SheetNames.forEach(function(sheetName) {
+                        // Here is your object
+                        sheet_obj = workbook.Sheets[sheetName];
+                        sheet_obj.remove
+                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+
+                        //var json_object_string = JSON.stringify(XL_row_object);
+                        var Json_object = XL_row_object;
+                        // console.log(Json_object);
+                        Json_object = Json_object.map(({
+                            Code,
+                            Name,
+                            Unit,
+                            PRICE3
+                        }) => ({
+                            Code,
+                            Name,
+                            Unit,
+                            PRICE3
+                        }));
+                        export_to_firebase(Json_object)
+                    });
+
+                };
+                reader.onerror = function(ex) {
+                    console.log(ex);
+                };
+                reader.readAsBinaryString(file);
+            };
+        };
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var instances = M.Dropdown.init(elems, {
+                'coverTrigger': false,
+            });
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems, {
+                'dismissible': false,
+                'opacity': 0.1,
+            });
+            document.getElementById('file_input').addEventListener('change', handleFileSelect, false);
+        });
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCQF3v8z8iJYmzL7zlyWyvnDPIlDvziCDg",
+            authDomain: "gokul-agencies.firebaseapp.com",
+            databaseURL: "https://gokul-agencies.firebaseio.com",
+            projectId: "gokul-agencies",
+            storageBucket: "gokul-agencies.appspot.com",
+            messagingSenderId: "845782377328",
+            appId: "1:845782377328:web:a01406c39d8f56ced365b5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().getRedirectResult().then(function(result) {
+            if (result.credential) {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = result.credential.accessToken;
+            }
+            // The signed-in user info.
+            var user = result.user;
+        }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+        });
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                document.getElementById('user_drop').style.display = 'inherit';
+                document.getElementById('user_drop_text').innerText = user['displayName'];
+                document.getElementById('login_li').style.display = 'none';
+                document.getElementById('file_input_row').style.display = 'none';
+                document.getElementById('subTitleHeader').innerHTML = "Type in the code/item name to search.";
+                firebase.database().ref('users/' + user['uid']).once('value').then((snapshot) => {
+                    var uploadPerm = (snapshot.val() && snapshot.val().uploadPerm) || false;
+                    if (uploadPerm) {
+                        document.getElementById('file_input_row').style.display = 'block';
+                    }
+                });
+
+            } else {
+                document.getElementById('login_li').style.display = 'inherit';
+                document.getElementById('user_drop').style.display = 'none';
+                document.getElementById('file_input_row').style.display = 'none';
+                document.getElementById('subTitleHeader').innerHTML = "Login/Signup to begin search.";
+                // No user is signed in.
+            }
+        });
+
+        function initiate_search(val) {
+            var ref = firebase.database().ref('item_list/');
+            if (val) {
+                item = val.toUpperCase();
+                console.log("Searching for " + item);
+            } else {
+                return
+            }
+            var table = document.getElementById('item_table').getElementsByTagName('tbody')[0];
+            //workaround for clearing table
+            $('#item_table tbody').empty();
+
+            ref.orderByChild('Code').startAt(item).endAt(item + "\uf8ff ").limitToFirst(10).on('child_added', function(snapshot) {
+                if (snapshot) {
+                    console.log(snapshot.val().Code + " " + snapshot.val().Name);
+                    var row = table.insertRow(-1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    cell1.innerHTML = snapshot.val().Code;
+                    cell2.innerHTML = snapshot.val().Name;
+                    cell3.innerHTML = snapshot.val().PRICE3;
+                    cell4.innerHTML = snapshot.val().Unit;
+
+                }
+            });
+            ref.orderByChild('Name').startAt(item).endAt(item + "\uf8ff ").limitToFirst(10).on('child_added', function(snapshot) {
+                if (snapshot) {
+                    console.log(snapshot.val().Code + " " + snapshot.val().Name);
+                    var row = table.insertRow(-1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    cell1.innerHTML = snapshot.val().Code;
+                    cell2.innerHTML = snapshot.val().Name;
+                    cell3.innerHTML = snapshot.val().PRICE3;
+                    cell4.innerHTML = snapshot.val().Unit;
+                }
+            });
+        }
+
+
+        function login() {
+            email = document.getElementById('Email').value
+            password = document.getElementById('Password').value
+            firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
+                console.log("SIGNED IN " + user)
+                    // Signed  in // ...
+                var modal_sel = document.getElementById('modal1');
+                var instance = M.Modal.getInstance(modal_sel);
+                instance.close();
+                return true;
+            }).catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert(errorCode + '  ' + errorMessage);
+                return false;
+            });
+        }
+
+        function detectMob() {
+            return ((window.innerWidth <= 800) && (window.innerHeight <= 600));
+        }
+
+        function googleLogin() {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            if (detectMob()) {
+                firebase.auth().signInWithRedirect(provider);
+            } else {
+                console.log('PC GOOGLE LOGIN');
+                firebase.auth().signInWithPopup(provider).then(function(result) {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    var token = result.credential.accessToken;
+                    // The signed-in user info.
+                    var user = result.user;
+                    console.log('LOGIN SUCCESS');
+                    firebase.database().ref('users/' + user['uid']).update({
+                        displayName: user['displayName'],
+                        email: user['email'],
+                    }, (error) => {
+                        if (error) {
+                            console.log('glogin write fail')
+                                // The write failed...
+                        } else {
+                            console.log('glogin write success')
+                                // Data saved successfully!
+                        }
+                    });
+                }).catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The email of the user's account used.
+                    var email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+                    console.log(errorCode + errorMessage)
+                });
+            }
+        }
+
+        function signOut() {
+            firebase.auth().signOut().then(function() {
+                // Sign-out successful.
+            }).catch(function(error) {
+                alert(errorCode + errorMessage)
+                    // An error happened.
+            });
+        }
+
+        function handleFileSelect(evt) {
+
+            var files = evt.target.files; // FileList object
+            var xl2json = new ExcelToJSON();
+            xl2json.parseExcel(files[0]);
+
+        }
+
+        function export_to_firebase(obj) {
+            firebase.database().ref('item_list/').remove((error) => {
+                if (error) {
+                    console.log('Remove Fail')
+                } else {
+                    console.log('Removed old item list')
+                }
+            });
+            firebase.database().ref('item_list/').set(obj, (error) => {
+                if (error) {
+                    console.log('Fail')
+                } else {
+                    console.log('Write new data Success')
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
