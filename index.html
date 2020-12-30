@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
     <title>Price List | Gokul Agencies</title>
+    <link rel="icon" href="https://gokulagencies.in/wp-content/uploads/2020/11/favicon-gokul-agencies.ico" sizes="32x32">
 
 
     <!-- CSS  -->
@@ -28,11 +29,11 @@
                 <img src="https://gokulagencies.in/wp-content/uploads/2020/09/logo.svg" alt="Gokul Agencies" id="logo" style="vertical-align: middle; max-width: 85%">
             </a>
             <ul class="right hide-on-med-and-down" style="height:80px;">
-                <li id='login_li' style="display: none; height:80px;"><a style="color: black" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
+                <li id='login_li' style="display: none; height:80px;"><a style="color: black; padding: 20% 0;" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
                 <li id='user_drop' style="display: none; height:80px;"><a style="color: black" class="dropdown-trigger" href="#!" data-target="dropdown1"><span id='user_drop_text'>User</span><i class="material-icons right">arrow_drop_down</i></a></li>
             </ul>
 
-            <ul id="nav-mobile " class="sidenav ">
+            <ul id="nav-mobile " class="sidenav">
                 <li><a style="color: black; background-color:lightgrey" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
             </ul>
             <a href="#!" data-target="nav-mobile " style="color: #0056B8;" class="sidenav-trigger "><i class="material-icons ">menu</i></a>
@@ -212,6 +213,8 @@
                 'dismissible': false,
                 'opacity': 0.1,
             });
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems);
             document.getElementById('file_input').addEventListener('change', handleFileSelect, false);
         });
         // Your web app's Firebase configuration

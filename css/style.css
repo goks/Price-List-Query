@@ -18,9 +18,16 @@
 
 body {
     font-family: Open Sans, Arial, sans-serif;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 .footer_header {
     color: #2ea3f2;
     font-size: 18px;
+}
+
+main {
+    flex: 1 0 auto;
 }
