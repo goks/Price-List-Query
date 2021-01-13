@@ -7,7 +7,6 @@
     <title>Price List | Gokul Agencies</title>
     <link rel="icon" href="https://gokulagencies.in/wp-content/uploads/2020/11/favicon-gokul-agencies.ico" sizes="32x32">
 
-
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -15,10 +14,8 @@
 
     <!-- FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
-
-    <!-- Add Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
 </head>
 
@@ -28,15 +25,11 @@
             <a id="logo-container" href="https://gokulagencies.in/" class="brand-logo valign-wrapper" style="height:80px;">
                 <img src="https://gokulagencies.in/wp-content/uploads/2020/09/logo.svg" alt="Gokul Agencies" id="logo" style="vertical-align: middle; max-width: 85%">
             </a>
-            <ul class="right hide-on-med-and-down" style="height:80px;">
+            <ul class="right" style="height:80px;">
                 <li id='login_li' style="display: none; height:80px;"><a style="color: black; padding: 20% 0;" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
-                <li id='user_drop' style="display: none; height:80px;"><a style="color: black" class="dropdown-trigger" href="#!" data-target="dropdown1"><span id='user_drop_text'>User</span><i class="material-icons right">arrow_drop_down</i></a></li>
+                <li id='user_drop' class='hide-on-med-and-down' style="display: none; height:80px;"><a style="color: black; height: 100%;" class="dropdown-trigger valign-wrapper" href="#!" data-target="dropdown1"><span id='user_drop_text'>User</span><i class="material-icons right">arrow_drop_down</i></a></li>
+                <li id='user_drop_mob' class='show-on-medium-and-down' style="display: none; height:80px;"><a style="height:100%" class="dropdown-trigger valign-wrapper" href="#!" data-target="dropdown2"><span id='user_drop_mob_image'><i class="material-icons">account_circle</i></span></a></li>
             </ul>
-
-            <ul id="nav-mobile " class="sidenav">
-                <li><a style="color: black; background-color:lightgrey" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
-            </ul>
-            <a href="#!" data-target="nav-mobile " style="color: #0056B8;" class="sidenav-trigger "><i class="material-icons ">menu</i></a>
         </div>
     </nav>
     <div class="section no-pad-bot " id="index-banner " style="background-color: #0056B8; ">
@@ -49,12 +42,13 @@
             <br><br>
         </div>
     </div>
-
     <!-- Dropdown Structure -->
     <ul id="dropdown1" class="dropdown-content">
         <li><a href="#!" onclick="signOut()">Signout</a></li>
     </ul>
-
+    <ul id="dropdown2" class="dropdown-content">
+        <li><a href="#!" onclick="signOut()">Signout</a></li>
+    </ul>
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
         <div class="modal-content">
@@ -97,10 +91,11 @@
                 <div class="col s12 ">
                     <div class="input-field">
                         <i class="material-icons prefix ">search</i>
-                        <input id="search" type="text" class="" oninput="initiate_search(this.value)">
-                        <label for="search">Enter Item Name / Code</label>
+                        <input id="search" disabled type="text" class="" oninput="initiate_search(this.value)">
+                        <label for="search" id="search_label">Signup/Login first.</label>
+                        <!-- <label for="search" id="search_label">Enter Item Name / Code</label> -->
                     </div>
-                    <table id='item_table'>
+                    <table id='item_table' class="" style="display:none;">
                         <thead>
                             <tr>
                                 <th>Code</th>
@@ -109,10 +104,7 @@
                                 <th>UQC</th>
                             </tr>
                         </thead>
-
-                        <tbody id='item_table_tbody'>
-
-                        </tbody>
+                        <tbody id='item_table_tbody'> </tbody>
                     </table>
                 </div>
             </div>
@@ -152,11 +144,9 @@
         </div>
     </footer>
 
-
     <!--  Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="js/init.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js "></script>
     <script>
@@ -210,7 +200,7 @@
             });
             var elems = document.querySelectorAll('.modal');
             var instances = M.Modal.init(elems, {
-                'dismissible': false,
+                'dismissible': true,
                 'opacity': 0.1,
             });
             var elems = document.querySelectorAll('.sidenav');
@@ -249,8 +239,10 @@
 
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
+                // console.log(user['photoURL']);
                 document.getElementById('user_drop').style.display = 'inherit';
                 document.getElementById('user_drop_text').innerText = user['displayName'];
+                document.getElementById('user_drop_mob_image').innerHTML = " <img src='" + user['photoURL'] + "' class='circle centered right' > ";
                 document.getElementById('login_li').style.display = 'none';
                 document.getElementById('file_input_row').style.display = 'none';
                 document.getElementById('subTitleHeader').innerHTML = "Type in the code/item name to search.";
@@ -260,12 +252,18 @@
                         document.getElementById('file_input_row').style.display = 'block';
                     }
                 });
+                document.getElementById('search').removeAttribute("disabled");
+                document.getElementById('item_table').style.display = 'table';
+                document.getElementById('search_label').innerHTML = 'Enter Item Name / Code';
 
             } else {
                 document.getElementById('login_li').style.display = 'inherit';
                 document.getElementById('user_drop').style.display = 'none';
                 document.getElementById('file_input_row').style.display = 'none';
                 document.getElementById('subTitleHeader').innerHTML = "Login/Signup to begin search.";
+                document.getElementById('search').setAttribute("disabled");
+                document.getElementById('item_table').style.display = 'none';
+                document.getElementById('search_label').innerHTML = 'Signup/Login first.';
                 // No user is signed in.
             }
         });
@@ -274,17 +272,17 @@
             var ref = firebase.database().ref('item_list/');
             if (val) {
                 item = val.toUpperCase();
-                console.log("Searching for " + item);
+                // console.log("Searching for " + item);
             } else {
                 return
             }
             var table = document.getElementById('item_table').getElementsByTagName('tbody')[0];
-            //workaround for clearing table
+            // workaround for clearing table
             $('#item_table tbody').empty();
 
             ref.orderByChild('Code').startAt(item).endAt(item + "\uf8ff ").limitToFirst(10).on('child_added', function(snapshot) {
                 if (snapshot) {
-                    console.log(snapshot.val().Code + " " + snapshot.val().Name);
+                    //console.log(snapshot.val().Code + " " + snapshot.val().Name);
                     var row = table.insertRow(-1);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
@@ -299,7 +297,7 @@
             });
             ref.orderByChild('Name').startAt(item).endAt(item + "\uf8ff ").limitToFirst(10).on('child_added', function(snapshot) {
                 if (snapshot) {
-                    console.log(snapshot.val().Code + " " + snapshot.val().Name);
+                    // console.log(snapshot.val().Code + " " + snapshot.val().Name);
                     var row = table.insertRow(-1);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
@@ -348,6 +346,9 @@
                     // The signed-in user info.
                     var user = result.user;
                     console.log('LOGIN SUCCESS');
+                    var modal_sel = document.getElementById('modal1');
+                    var instance = M.Modal.getInstance(modal_sel);
+                    instance.close();
                     firebase.database().ref('users/' + user['uid']).update({
                         displayName: user['displayName'],
                         email: user['email'],
@@ -376,6 +377,7 @@
         function signOut() {
             firebase.auth().signOut().then(function() {
                 // Sign-out successful.
+                location.reload()
             }).catch(function(error) {
                 alert(errorCode + errorMessage)
                     // An error happened.
@@ -383,11 +385,9 @@
         }
 
         function handleFileSelect(evt) {
-
             var files = evt.target.files; // FileList object
             var xl2json = new ExcelToJSON();
             xl2json.parseExcel(files[0]);
-
         }
 
         function export_to_firebase(obj) {

@@ -29,5 +29,9 @@ body {
 }
 
 main {
-    flex: 1 0 auto;
+    /* flex: 1 0 auto; */
+}
+
+.centered {
+    max-width: 50%;
 }
