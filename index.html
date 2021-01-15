@@ -91,7 +91,7 @@
                 <div class="col s12 ">
                     <div class="input-field">
                         <i class="material-icons prefix ">search</i>
-                        <input id="search" disabled type="text" class="" oninput="initiate_search(this.value)">
+                        <input id="search" disabled type="text" class="" onkeyup="initiate_search(this.value)">
                         <label for="search" id="search_label">Signup/Login first.</label>
                         <!-- <label for="search" id="search_label">Enter Item Name / Code</label> -->
                     </div>
@@ -259,6 +259,7 @@
             } else {
                 document.getElementById('login_li').style.display = 'inherit';
                 document.getElementById('user_drop').style.display = 'none';
+                document.getElementById('user_drop_mob').style.display = 'none';
                 document.getElementById('file_input_row').style.display = 'none';
                 document.getElementById('subTitleHeader').innerHTML = "Login/Signup to begin search.";
                 document.getElementById('search').setAttribute("disabled");
@@ -274,14 +275,17 @@
                 item = val.toUpperCase();
                 // console.log("Searching for " + item);
             } else {
-                return
+                $('#item_table tbody').empty();
             }
             var table = document.getElementById('item_table').getElementsByTagName('tbody')[0];
             // workaround for clearing table
             $('#item_table tbody').empty();
 
-            ref.orderByChild('Code').startAt(item).endAt(item + "\uf8ff ").limitToFirst(10).on('child_added', function(snapshot) {
+            ref.orderByChild('Code').startAt(item).endAt(item + "\uf8ff ").limitToFirst(30).on('child_added', function(snapshot) {
                 if (snapshot) {
+                    if (snapshot.val().PRICE3[0] == 0) {
+                        return
+                    }
                     //console.log(snapshot.val().Code + " " + snapshot.val().Name);
                     var row = table.insertRow(-1);
                     var cell1 = row.insertCell(0);
@@ -295,8 +299,11 @@
 
                 }
             });
-            ref.orderByChild('Name').startAt(item).endAt(item + "\uf8ff ").limitToFirst(10).on('child_added', function(snapshot) {
+            ref.orderByChild('Name').startAt(item).endAt(item + "\uf8ff ").limitToFirst(5).on('child_added', function(snapshot) {
                 if (snapshot) {
+                    if (snapshot.val().PRICE3[0] == 0) {
+                        return
+                    }
                     // console.log(snapshot.val().Code + " " + snapshot.val().Name);
                     var row = table.insertRow(-1);
                     var cell1 = row.insertCell(0);
@@ -310,7 +317,6 @@
                 }
             });
         }
-
 
         function login() {
             email = document.getElementById('Email').value
@@ -401,8 +407,10 @@
             firebase.database().ref('item_list/').set(obj, (error) => {
                 if (error) {
                     console.log('Fail')
+                    alert("Upload Success.");
                 } else {
                     console.log('Write new data Success')
+                    alert("Upload Success.");
                 }
             });
         }
