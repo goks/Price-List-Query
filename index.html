@@ -39,6 +39,7 @@
             <div class="row center ">
                 <h5 id="subTitleHeader" class="header col s12 light white-text ">Login/Signup to begin search.</h5>
             </div>
+            <p class="header col s12 light blue-text center ">Last update <span id="lastUpdatedTime">?</span> </p>
             <br><br>
         </div>
     </div>
@@ -120,6 +121,57 @@
             </div> <br><br>
         </div>
     </div>
+    <!-- Spinner -->
+    <div class="preloader-wrapper active loader" id='spinner' style="display: none;">
+        <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+
+        <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+
     <footer class="page-footer " style="background-color: #222; ">
         <div class="container ">
             <div class="row ">
@@ -206,6 +258,11 @@
             var elems = document.querySelectorAll('.sidenav');
             var instances = M.Sidenav.init(elems);
             document.getElementById('file_input').addEventListener('change', handleFileSelect, false);
+            firebase.database().ref('item_list_update_time/').once('value').then((snapshot) => {
+                var timestamp = snapshot.val()
+                var d = new Date(timestamp);
+                document.getElementById('lastUpdatedTime').innerHTML = d.getDate() + ' / ' + (d.getMonth() + 1) + ' / ' + d.getFullYear();
+            });
         });
         // Your web app's Firebase configuration
         var firebaseConfig = {
@@ -391,6 +448,7 @@
         }
 
         function handleFileSelect(evt) {
+            document.getElementById('spinner').style.display = 'inline-block';
             var files = evt.target.files; // FileList object
             var xl2json = new ExcelToJSON();
             xl2json.parseExcel(files[0]);
@@ -406,11 +464,21 @@
             });
             firebase.database().ref('item_list/').set(obj, (error) => {
                 if (error) {
-                    console.log('Fail')
-                    alert("Upload Success.");
+                    console.log('Data write Fail')
+                    alert("Data upload Fail.");
                 } else {
-                    console.log('Write new data Success')
-                    alert("Upload Success.");
+                    console.log('Data write Success')
+                    alert("Data upload Success.");
+                }
+            });
+            firebase.database().ref('item_list_update_time/').set(firebase.database.ServerValue.TIMESTAMP, (error) => {
+                if (error) {
+                    console.log('Time write Fail')
+                    alert("Time write Fail.");
+                } else {
+                    console.log('Time write Success')
+                    alert("Time write Success.");
+                    document.getElementById('spinner').style.display = 'none';
                 }
             });
         }
