@@ -230,6 +230,11 @@
 
                         //var json_object_string = JSON.stringify(XL_row_object);
                         var Json_object = XL_row_object;
+                        Object.keys(Json_object).forEach(function(key) {
+                            if (Json_object[key]['PRICE3'] == "0.00") {
+                                delete Json_object[key];
+                            }
+                        });
                         // console.log(Json_object);
                         Json_object = Json_object.map(({
                             Code,
