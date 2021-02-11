@@ -44,3 +44,7 @@ main {
     bottom: 0;
     margin: auto;
 }
+
+.pagination li.active {
+    background-color: #0056B8;
+}

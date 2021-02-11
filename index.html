@@ -109,6 +109,15 @@
                     </table>
                 </div>
             </div>
+            <ul class="pagination center" id='paginationSel'>
+                <!-- <li class='disabled'><a href='#!'><i class='material-icons'>chevron_left</i></a></li>
+                <li class='active'><a href='#!'>1</a></li>
+                <li class='waves-effect'><a href='#!' onclick='change_page(2,5)'>2</a></li>
+                <li class='waves-effect'><a href='#!'>3</a></li>
+                <li class='waves-effect'><a href='#!'>4</a></li>
+                <li class='waves-effect'><a href='#!'>5</a></li>
+                <li class='waves-effect'><a href='#!'><i class='material-icons'>chevron_right</i></a></li> -->
+            </ul>
             <div class="row" id="file_input_row" style="display: none;">
                 <div class="col s12 ">
                     <ul class="collection ">
@@ -118,7 +127,7 @@
                         </li>
                     </ul>
                 </div>
-            </div> <br><br>
+            </div>
         </div>
     </div>
     <!-- Spinner -->
@@ -338,41 +347,88 @@
             // workaround for clearing table
             $('#item_table tbody').empty();
 
-            ref.orderByChild('Code').startAt(item).endAt(item + "\uf8ff ").limitToFirst(30).on('child_added', function(snapshot) {
+            data = {};
+            // search by code
+            ref.orderByChild('Code').startAt(item).endAt(item + "\uf8ff ").limitToFirst(5).on('value', function(snapshot) {
                 if (snapshot) {
-                    if (snapshot.val().PRICE3[0] == 0) {
-                        return
-                    }
-                    //console.log(snapshot.val().Code + " " + snapshot.val().Name);
-                    var row = table.insertRow(-1);
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-                    cell1.innerHTML = snapshot.val().Code;
-                    cell2.innerHTML = snapshot.val().Name;
-                    cell3.innerHTML = snapshot.val().PRICE3;
-                    cell4.innerHTML = snapshot.val().Unit;
+                    //console.log(snapshot.val());
+                    data = Object.assign({}, data, snapshot.val());
+                    // search by name
+                    ref.orderByChild('Name').startAt(item).endAt(item + "\uf8ff ").limitToFirst(100).on('value', function(snapshot) {
+                        if (snapshot) {
+                            data = Object.assign({}, data, snapshot.val());
+                        }
+                        // console.log(data);
+                        populate_data(data);
+                    });
+                    //   if (snapshot.val().PRICE3[0] == 0) {
+                    // return
+                    //}
+                    // var row = table.insertRow(-1);
+                    // var cell1 = row.insertCell(0);
+                    // var cell2 = row.insertCell(1);
+                    // var cell3 = row.insertCell(2);
+                    // var cell4 = row.insertCell(3);
+                    // cell1.innerHTML = snapshot.val().Code;
+                    // cell2.innerHTML = snapshot.val().Name;
+                    // cell3.innerHTML = snapshot.val().PRICE3;
+                    // cell4.innerHTML = snapshot.val().Unit;
+                }
+            });
+        }
 
-                }
-            });
-            ref.orderByChild('Name').startAt(item).endAt(item + "\uf8ff ").limitToFirst(5).on('child_added', function(snapshot) {
-                if (snapshot) {
-                    if (snapshot.val().PRICE3[0] == 0) {
-                        return
-                    }
-                    // console.log(snapshot.val().Code + " " + snapshot.val().Name);
-                    var row = table.insertRow(-1);
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-                    cell1.innerHTML = snapshot.val().Code;
-                    cell2.innerHTML = snapshot.val().Name;
-                    cell3.innerHTML = snapshot.val().PRICE3;
-                    cell4.innerHTML = snapshot.val().Unit;
-                }
-            });
+        const no_of_items_in_a_page = 5;
+
+        function populate_data(data) {
+            var length = Object.keys(data).length;
+            var no_of_pages = Math.ceil(length / no_of_items_in_a_page);
+            console.log("No of pages" + no_of_pages);
+            change_page(1, no_of_pages);
+            fill_page(1);
+        }
+
+        function fill_page(page_no) {
+            var table = document.getElementById('item_table').getElementsByTagName('tbody')[0];
+            // workaround for clearing table
+            $('#item_table tbody').empty();
+            var keys = Object.keys(data);
+            // console.log(keys);
+            for (i = (page_no - 1) * no_of_items_in_a_page; i < page_no * no_of_items_in_a_page & i < keys.length; i++) {
+                //console.log("Searching for key " + i)
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                //console.log(data[keys[i]])
+                cell1.innerHTML = data[keys[i]]["Code"];
+                cell2.innerHTML = data[keys[i]]["Name"];
+                cell3.innerHTML = data[keys[i]]["PRICE3"];
+                cell4.innerHTML = data[keys[i]]["Unit"];
+            }
+
+        }
+
+        function change_page(page_no, no_of_pages) {
+            pagination_code = "";
+            if (no_of_pages > 1 & page_no == 1)
+                pagination_code = "<li class='disabled'><a href='#!'><i class='material-icons'>chevron_left</i></a></li>";
+            else if (no_of_pages > 1 & page_no > 1)
+                pagination_code += "<li><a href='#!' onclick='change_page(" + (page_no - 1) + ',' + no_of_pages + ")' ><i class='material-icons'>chevron_left</i></a></li>"
+            for (i = 1; i <= no_of_pages; i++) {
+                if (i == page_no)
+                    cls = "active"
+                else
+                    cls = 'waves-effect'
+                element = "<li class='" + cls + "'><a href='#!' onclick='change_page(" + i + ',' + no_of_pages + ")'>" + i + "</a></li>";
+                pagination_code += element;
+            }
+            if (no_of_pages > 1 & page_no == no_of_pages)
+                pagination_code += "<li class='disabled'><a href='#!'><i class='material-icons'>chevron_right</i></a></li>";
+            else if (no_of_pages > 1 & page_no != no_of_pages)
+                pagination_code += "<li><a href='#!' onclick='change_page(" + (page_no + 1) + ',' + no_of_pages + ")' ><i class='material-icons'>chevron_right</i></a></li>"
+            document.getElementById('paginationSel').innerHTML = pagination_code
+            fill_page(page_no)
         }
 
         function login() {
@@ -484,5 +540,7 @@
         }
     </script>
 </body>
+
+</html>
 
 </html>
