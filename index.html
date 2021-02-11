@@ -28,7 +28,7 @@
             <ul class="right" style="height:80px;">
                 <li id='login_li' style="display: none; height:80px;"><a style="color: black; padding: 20% 0;" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
                 <li id='user_drop' class='hide-on-med-and-down' style="display: none; height:80px;"><a style="color: black; height: 100%;" class="dropdown-trigger valign-wrapper" href="#!" data-target="dropdown1"><span id='user_drop_text'>User</span><i class="material-icons right">arrow_drop_down</i></a></li>
-                <li id='user_drop_mob' class='show-on-medium-and-down' style="display: none; height:80px;"><a style="height:100%" class="dropdown-trigger valign-wrapper" href="#!" data-target="dropdown2"><span id='user_drop_mob_image'><i class="material-icons">account_circle</i></span></a></li>
+                <li id='user_drop_mob' class='show-on-medium-and-down' style="visibility: hidden; height:80px;"><a style="height:100%" class="dropdown-trigger valign-wrapper" href="#!" data-target="dropdown2"><span id='user_drop_mob_image'><i class="material-icons">account_circle</i></span></a></li>
             </ul>
         </div>
     </nav>
@@ -314,6 +314,7 @@
                 document.getElementById('user_drop').style.display = 'inherit';
                 document.getElementById('user_drop_text').innerText = user['displayName'];
                 document.getElementById('user_drop_mob_image').innerHTML = " <img src='" + user['photoURL'] + "' class='circle centered right' > ";
+                document.getElementById('user_drop_mob').style.visibility = 'visible';
                 document.getElementById('login_li').style.display = 'none';
                 document.getElementById('file_input_row').style.display = 'none';
                 document.getElementById('subTitleHeader').innerHTML = "Type in the code/item name to search.";
@@ -330,7 +331,7 @@
             } else {
                 document.getElementById('login_li').style.display = 'inherit';
                 document.getElementById('user_drop').style.display = 'none';
-                document.getElementById('user_drop_mob').style.display = 'none';
+                document.getElementById('user_drop_mob').style.visibility = 'none';
                 document.getElementById('file_input_row').style.display = 'none';
                 document.getElementById('subTitleHeader').innerHTML = "Login/Signup to begin search.";
                 document.getElementById('search').setAttribute("disabled");
@@ -545,7 +546,5 @@
         }
     </script>
 </body>
-
-</html>
 
 </html>
