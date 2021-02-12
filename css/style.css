@@ -48,3 +48,11 @@ main {
 .pagination li.active {
     background-color: #0056B8;
 }
+
+.dropdown-content li a {
+    color: #007cba;
+}
+
+.btn {
+    background-color: #007cba;
+}
