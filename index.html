@@ -210,6 +210,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js "></script>
+    <script type="text/javascript" src="//wurfl.io/wurfl.js"></script>
     <script>
         var ExcelToJSON = function() {
 
@@ -310,23 +311,51 @@
 
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-                // console.log(user['photoURL']);
-                document.getElementById('user_drop').style.display = 'inherit';
-                document.getElementById('user_drop_text').innerText = user['displayName'];
-                document.getElementById('user_drop_mob_image').innerHTML = " <img src='" + user['photoURL'] + "' class='circle centered right' > ";
-                document.getElementById('user_drop_mob').style.visibility = 'visible';
-                document.getElementById('login_li').style.display = 'none';
-                document.getElementById('file_input_row').style.display = 'none';
-                document.getElementById('subTitleHeader').innerHTML = "Type in the code/item name to search.";
-                firebase.database().ref('users/' + user['uid']).once('value').then((snapshot) => {
-                    var uploadPerm = (snapshot.val() && snapshot.val().uploadPerm) || false;
-                    if (uploadPerm) {
-                        document.getElementById('file_input_row').style.display = 'block';
-                    }
+                $.get("http://www.geoplugin.net/json.gp", function(data) {
+                    ip = data["geoplugin_request"].replace(/\./g, '')
+                    device_name = WURFL.complete_device_name
+                    firebase.database().ref('users/' + user['uid'] + '/' + ip + device_name).update({
+                        'last_login': firebase.database.ServerValue.TIMESTAMP,
+                        'form_factor': WURFL.form_factor,
+                        'is_mobile': WURFL.is_mobile,
+                        'complete_device_name': WURFL.complete_device_name,
+                        'ip': data["geoplugin_request"],
+                        'city': data['geoplugin_city'],
+                        'country code': data["geoplugin_countryCode"],
+                        'country': data["geoplugin_countryName"],
+                        'latitude': data["geoplugin_latitude"],
+                        'longitude': data["geoplugin_longitude"],
+                        'region code': data["geoplugin_regionCode"],
+                        'region name': data["geoplugin_regionName"],
+                    }, (error) => {
+                        if (error) {
+                            console.log('last login/ip data write fail')
+                                // The write failed...
+                        } else {
+                            console.log('last login/ip data write success')
+                                // Data saved successfully!
+                                // console.log(user['photoURL']);
+                            document.getElementById('user_drop').style.display = 'inherit';
+                            document.getElementById('user_drop_text').innerText = user['displayName'];
+                            document.getElementById('user_drop_mob_image').innerHTML = " <img src='" + user['photoURL'] + "' class='circle centered right' > ";
+                            document.getElementById('user_drop_mob').style.visibility = 'visible';
+                            document.getElementById('login_li').style.display = 'none';
+                            document.getElementById('file_input_row').style.display = 'none';
+                            document.getElementById('subTitleHeader').innerHTML = "Type in the code/item name to search.";
+                            firebase.database().ref('users/' + user['uid']).once('value').then((snapshot) => {
+                                var uploadPerm = (snapshot.val() && snapshot.val().uploadPerm) || false;
+                                if (uploadPerm) {
+                                    document.getElementById('file_input_row').style.display = 'block';
+                                }
+                            });
+                            document.getElementById('search').removeAttribute("disabled");
+                            document.getElementById('item_table').style.display = 'table';
+                            document.getElementById('search_label').innerHTML = 'Enter Item Name / Code';
+
+                        }
+                    });
                 });
-                document.getElementById('search').removeAttribute("disabled");
-                document.getElementById('item_table').style.display = 'table';
-                document.getElementById('search_label').innerHTML = 'Enter Item Name / Code';
+
 
             } else {
                 document.getElementById('login_li').style.display = 'inherit';
@@ -477,6 +506,7 @@
                     firebase.database().ref('users/' + user['uid']).update({
                         displayName: user['displayName'],
                         email: user['email'],
+                        'data/last_login_time': firebase.database.ServerValue.TIMESTAMP,
                     }, (error) => {
                         if (error) {
                             console.log('glogin write fail')
