@@ -5,7 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
     <title>Price List | Gokul Agencies</title>
-    <link rel="icon" href="https://gokulagencies.in/wp-content/uploads/2020/11/favicon-gokul-agencies.ico" sizes="32x32">
+    <link rel="icon" href="https://gokulagencies.in/wp-content/uploads/2020/11/favicon-gokul-agencies.ico"
+        sizes="32x32">
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -22,13 +23,22 @@
 <body>
     <nav class="white" role="navigation" style="height: 80px;">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="https://gokulagencies.in/" class="brand-logo valign-wrapper" style="height:80px;">
-                <img src="https://gokulagencies.in/wp-content/uploads/2020/09/logo.svg" alt="Gokul Agencies" id="logo" style="vertical-align: middle; max-width: 85%">
+            <a id="logo-container" href="https://gokulagencies.in/" class="brand-logo valign-wrapper"
+                style="height:80px;">
+                <img src="https://gokulagencies.in/wp-content/uploads/2020/09/logo.svg" alt="Gokul Agencies" id="logo"
+                    style="vertical-align: middle; max-width: 85%">
             </a>
             <ul class="right" style="height:80px;">
-                <li id='login_li' style="display: none; height:80px;"><a style="color: black; padding: 20% 0;" class="waves-light modal-trigger" href="#modal1"> Login</a></li>
-                <li id='user_drop' class='hide-on-med-and-down' style="display: none; height:80px;"><a style="color: black; height: 100%;" class="dropdown-trigger valign-wrapper" href="#!" data-target="dropdown1"><span id='user_drop_text'>User</span><i class="material-icons right">arrow_drop_down</i></a></li>
-                <li id='user_drop_mob' class='show-on-medium-and-down' style="visibility: hidden; height:80px;"><a style="height:100%" class="dropdown-trigger valign-wrapper" href="#!" data-target="dropdown2"><span id='user_drop_mob_image'><i class="material-icons">account_circle</i></span></a></li>
+                <li id='login_li' style="display: none; height:80px;"><a style="color: black; padding: 20% 0;"
+                        class="waves-light modal-trigger" href="#modal1"> Login</a></li>
+                <li id='user_drop' class='hide-on-med-and-down' style="display: none; height:80px;"><a
+                        style="color: black; height: 100%;" class="dropdown-trigger valign-wrapper" href="#!"
+                        data-target="dropdown1"><span id='user_drop_text'>User</span><i
+                            class="material-icons right">arrow_drop_down</i></a></li>
+                <li id='user_drop_mob' class='show-on-medium-and-down' style="visibility: hidden; height:80px;"><a
+                        style="height:100%" class="dropdown-trigger valign-wrapper" href="#!"
+                        data-target="dropdown2"><span id='user_drop_mob_image'><i
+                                class="material-icons">account_circle</i></span></a></li>
             </ul>
         </div>
     </nav>
@@ -67,10 +77,12 @@
                     </div>
                     <!-- </form> -->
                     <div class="input-field col s12">
-                        <button class="waves-effect waves-light btn" onclick="login()">Login <i class="material-icons right">send</i></button>
+                        <button class="waves-effect waves-light btn" onclick="login()">Login <i
+                                class="material-icons right">send</i></button>
                     </div>
                     <div class="input-field col s12">
-                        <button class="waves-effect waves-light btn " onclick="googleLogin()">Login  with Google<i class="material-icons right">send</i></button>
+                        <button class="waves-effect waves-light btn " onclick="googleLogin()">Login with Google<i
+                                class="material-icons right">send</i></button>
                     </div>
                     <div class="input-field col s12">
                         <a href="#">Forgot Password?</a>
@@ -118,12 +130,30 @@
                 <li class='waves-effect'><a href='#!'>5</a></li>
                 <li class='waves-effect'><a href='#!'><i class='material-icons'>chevron_right</i></a></li> -->
             </ul>
+            <div class="row valign-wrapper"
+                style=" border: 1px solid #294D5E; border-radius: 2px; height: 97px">
+                <div class="col s12 ">
+                    <div class="row valign-wrapper">
+                        <div class="col s12 m4">
+                            <img src="./imgs/universal_logo.svg" class="responsive-img">
+                        </div> 
+                        <div class="col s12 m4">
+                            <h6>Weight and Pricelist as on <span>26/06/2020</span>.</h6>
+                        </div>
+                        <div class="col s12 m4">
+                            <a class="waves-effect waves-light btn teal darken-3"><i class="material-icons right">file_download</i>Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row" id="file_input_row" style="display: none;">
                 <div class="col s12 ">
                     <ul class="collection ">
                         <li class="collection-item ">
-                            <div>Upload Excel<a href="#! " class="secondary-content "><i class="material-icons ">file_upload</i></a>
-                                <input type="file" id="file_input"></div>
+                            <div>Upload Excel<a href="#! " class="secondary-content "><i
+                                        class="material-icons ">file_upload</i></a>
+                                <input type="file" id="file_input">
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -212,18 +242,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js "></script>
     <script type="text/javascript" src="//wurfl.io/wurfl.js"></script>
     <script>
-        var ExcelToJSON = function() {
+        var ExcelToJSON = function () {
 
-            this.parseExcel = function(file) {
+            this.parseExcel = function (file) {
                 var reader = new FileReader();
 
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     var data = e.target.result;
                     var workbook = XLSX.read(data, {
                         type: 'binary'
                     });
 
-                    workbook.SheetNames.forEach(function(sheetName) {
+                    workbook.SheetNames.forEach(function (sheetName) {
                         // Here is your object
                         sheet_obj = workbook.Sheets[sheetName];
                         sheet_obj.remove
@@ -231,7 +261,7 @@
 
                         //var json_object_string = JSON.stringify(XL_row_object);
                         var Json_object = XL_row_object;
-                        Object.keys(Json_object).forEach(function(key) {
+                        Object.keys(Json_object).forEach(function (key) {
                             if (Json_object[key]['PRICE3'] == "0.00") {
                                 delete Json_object[key];
                             }
@@ -252,7 +282,7 @@
                     });
 
                 };
-                reader.onerror = function(ex) {
+                reader.onerror = function (ex) {
                     console.log(ex);
                 };
                 reader.readAsBinaryString(file);
@@ -260,7 +290,7 @@
         };
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.dropdown-trigger');
             var instances = M.Dropdown.init(elems, {
                 'coverTrigger': false,
@@ -292,14 +322,14 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        firebase.auth().getRedirectResult().then(function(result) {
+        firebase.auth().getRedirectResult().then(function (result) {
             if (result.credential) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 var token = result.credential.accessToken;
             }
             // The signed-in user info.
             var user = result.user;
-        }).catch(function(error) {
+        }).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -309,9 +339,9 @@
             var credential = error.credential;
         });
 
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                $.get("http://www.geoplugin.net/json.gp", function(data) {
+                $.get("http://www.geoplugin.net/json.gp", function (data) {
                     ip = data["geoplugin_request"].replace(/\./g, '')
                     device_name = WURFL.complete_device_name
                     firebase.database().ref('users/' + user['uid'] + '/' + ip + device_name).update({
@@ -330,11 +360,11 @@
                     }, (error) => {
                         if (error) {
                             console.log('last login/ip data write fail')
-                                // The write failed...
+                            // The write failed...
                         } else {
                             console.log('last login/ip data write success')
-                                // Data saved successfully!
-                                // console.log(user['photoURL']);
+                            // Data saved successfully!
+                            // console.log(user['photoURL']);
                             document.getElementById('user_drop').style.display = 'inherit';
                             document.getElementById('user_drop_text').innerText = user['displayName'];
                             document.getElementById('user_drop_mob_image').innerHTML = " <img src='" + user['photoURL'] + "' class='circle centered right' > ";
@@ -384,12 +414,12 @@
 
             data = {};
             // search by code
-            ref.orderByChild('Code').startAt(item).endAt(item + "\uf8ff ").limitToFirst(5).on('value', function(snapshot) {
+            ref.orderByChild('Code').startAt(item).endAt(item + "\uf8ff ").limitToFirst(5).on('value', function (snapshot) {
                 if (snapshot) {
                     //console.log(snapshot.val());
                     data = Object.assign({}, data, snapshot.val());
                     // search by name
-                    ref.orderByChild('Name').startAt(item).endAt(item + "\uf8ff ").limitToFirst(100).on('value', function(snapshot) {
+                    ref.orderByChild('Name').startAt(item).endAt(item + "\uf8ff ").limitToFirst(100).on('value', function (snapshot) {
                         if (snapshot) {
                             data = Object.assign({}, data, snapshot.val());
                         }
@@ -471,7 +501,7 @@
             password = document.getElementById('Password').value
             firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
                 console.log("SIGNED IN " + user)
-                    // Signed  in // ...
+                // Signed  in // ...
                 var modal_sel = document.getElementById('modal1');
                 var instance = M.Modal.getInstance(modal_sel);
                 instance.close();
@@ -494,7 +524,7 @@
                 firebase.auth().signInWithRedirect(provider);
             } else {
                 console.log('PC GOOGLE LOGIN');
-                firebase.auth().signInWithPopup(provider).then(function(result) {
+                firebase.auth().signInWithPopup(provider).then(function (result) {
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     var token = result.credential.accessToken;
                     // The signed-in user info.
@@ -510,13 +540,13 @@
                     }, (error) => {
                         if (error) {
                             console.log('glogin write fail')
-                                // The write failed...
+                            // The write failed...
                         } else {
                             console.log('glogin write success')
-                                // Data saved successfully!
+                            // Data saved successfully!
                         }
                     });
-                }).catch(function(error) {
+                }).catch(function (error) {
                     // Handle Errors here.
                     var errorCode = error.code;
                     var errorMessage = error.message;
@@ -530,12 +560,12 @@
         }
 
         function signOut() {
-            firebase.auth().signOut().then(function() {
+            firebase.auth().signOut().then(function () {
                 // Sign-out successful.
                 location.reload()
-            }).catch(function(error) {
+            }).catch(function (error) {
                 alert(errorCode + errorMessage)
-                    // An error happened.
+                // An error happened.
             });
         }
 
