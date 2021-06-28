@@ -17,6 +17,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
 </head>
 
 <body>
@@ -130,17 +132,17 @@
                 <li class='waves-effect'><a href='#!'><i class='material-icons'>chevron_right</i></a></li> -->
             </ul>
             <div class="row valign-wrapper"
-                style=" border: 1px solid #294D5E; border-radius: 2px; height: 97px">
+                style="border: 1px solid #294D5E; border-radius: 2px; height: 97px">
                 <div class="col s12 ">
-                    <div class="row valign-wrapper">
-                        <div class="col s12 m4">
-                            <img src="./imgs/universal_logo.svg" class="responsive-img">
+                    <div class="row valign-wrapper" style="margin-bottom: 0px; ">
+                        <div class="col s12 m3">
+                            <img alt="universal-logo" src="./imgs/universal_logo.svg"  class="responsive-img">
                         </div> 
-                        <div class="col s12 m4">
-                            <h6>Weight and Pricelist as on <span>26/06/2020</span>.</h6>
+                        <div class="col s6 m6">
+            <h6 style="font-family: 'Open Sans'; font-size: 16px; color: #1B4254; text-align: center;">Weight and Pricelist as on <span>26/06/2020</span>.</h6>
                         </div>
-                        <div class="col s12 m4">
-                            <a class="waves-effect waves-light btn teal darken-3"><i class="material-icons right">file_download</i>Download</a>
+                        <div class="col s6 m3">
+                            <a class="waves-effect waves-light btn" onclick="download_pricelist()" style="font-family: 'Open Sans'; background-color: #294D5E; text-transform: inherit; border-radius: 8px"><i class="material-icons right">file_download</i>Download</a>
                         </div>
                     </div>
                 </div>
@@ -616,6 +618,10 @@
                     document.getElementById('spinner').style.display = 'none';
                 }
             });
+        }
+        function download_pricelist() {
+            console.log('Downloading...')
+            window.location.href = "https://docs.google.com/spreadsheets/d/13dIWDIXWXKlXTlHzoJCWJo8ZgUVrAutnpuJ_IAoK_m0/export?format=pdf";
         }
     </script>
 </body>
