@@ -131,20 +131,26 @@
                 <li class='waves-effect'><a href='#!'>5</a></li>
                 <li class='waves-effect'><a href='#!'><i class='material-icons'>chevron_right</i></a></li> -->
             </ul>
-            <div class="row valign-wrapper"
-                style="border: 1px solid #294D5E; border-radius: 2px; height: 97px">
-                <div class="col s12 ">
-                    <div class="row valign-wrapper" style="margin-bottom: 0px; ">
-                        <div class="col s12 m3">
-                            <img alt="universal-logo" src="./imgs/universal_logo.svg"  class="responsive-img">
-                        </div> 
-                        <div class="col s6 m6">
-            <h6 style="font-family: 'Open Sans'; font-size: 16px; color: #1B4254; text-align: center;">Weight and Pricelist as on <span>26/06/2020</span>.</h6>
-                        </div>
-                        <div class="col s6 m3">
-                            <a class="waves-effect waves-light btn" onclick="download_pricelist()" style="font-family: 'Open Sans'; background-color: #294D5E; text-transform: inherit; border-radius: 8px"><i class="material-icons right">file_download</i>Download</a>
-                        </div>
-                    </div>
+            <div class="row valign-wrapper" id='downloadRow'
+                style="display: none; border: 1px solid #294D5E; border-radius: 2px;">
+                <div class="col s12 m3">
+                    <img alt="universal-logo" src="imgs/universal_logo.svg" class="responsive-img">
+                </div>
+                <div class="col s6 m6">
+                    <h6 style="font-family: 'Open Sans'; font-size: 16px; color: #1B4254; text-align: center;">
+                        Weight and Pricelist
+                        <!-- as on <span>26/06/2020</span>. -->
+                    </h6>
+                </div>
+                <div class="col m3 hide-on-small-only">
+                    <a class="waves-effect waves-light btn" onclick="download_pricelist()"
+                        style="font-family: 'Open Sans'; background-color: #294D5E; text-transform: inherit; border-radius: 8px"><i
+                            class="material-icons right">file_download</i>Download</a>
+                </div>
+                <div class="col s6 hide-on-med-and-up">
+                    <a class="waves-effect waves-light btn" onclick="download_pricelist()"
+                        style="font-family: 'Open Sans'; background-color: #294D5E; text-transform: inherit; border-radius: 8px"><i
+                            class="material-icons right" style="margin-left: 0px;">file_download</i></a>
                 </div>
             </div>
             <div class="row" id="file_input_row" style="display: none;">
@@ -336,10 +342,10 @@
                 }, (error) => {
                     if (error) {
                         console.log('glogin write fail_2')
-                            // The write failed...
+                        // The write failed...
                     } else {
                         console.log('glogin write success_2')
-                            // Data saved successfully!
+                        // Data saved successfully!
                     }
                     // The signed-in user info.
                 });
@@ -397,6 +403,7 @@
                             });
                             document.getElementById('search').removeAttribute("disabled");
                             document.getElementById('item_table').style.display = 'table';
+                            document.getElementById('downloadRow').style.display = 'flex';
                             document.getElementById('search_label').innerHTML = 'Enter Item Name / Code';
 
                         }
@@ -411,6 +418,7 @@
                 document.getElementById('subTitleHeader').innerHTML = "Login/Signup to begin search.";
                 document.getElementById('search').setAttribute("disabled");
                 document.getElementById('item_table').style.display = 'none';
+                document.getElementById('downloadRow').style.display = 'none';
                 document.getElementById('search_label').innerHTML = 'Signup/Login first.';
                 // No user is signed in.
             }
